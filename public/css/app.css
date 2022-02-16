@@ -10962,3 +10962,15 @@ a.text-dark:focus {
   }
 }
 
+.posts_list {
+  list-style: none;
+}
+
+.posts_list li {
+  padding: 20px 0;
+}
+
+.posts_list li:not(:last-child) {
+  border-bottom: 1px solid lightgrey;
+}
+
