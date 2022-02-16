@@ -37,13 +37,26 @@ class PostController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
+    {        
         $data = $request->all();
-        // dd($data);
+
+        $request->validate([
+            'title' => 'required|string|max:100',
+            'content' => 'required',
+            // 'published' => ''
+        ]);
 
         $new_post = new Post();
         $new_post->title = $data['title'];
-        $new_post->slug = Str::of($data['title'])->slug('-');
+
+        $slug = Str::of($data['title'])->slug('-');
+        $count = 1;
+        while( Post::where('slug', $slug)->first() ) {
+            $slug = Str::of($data['title'])->slug('-')."-{$count}";
+            $count++;
+        }
+        $new_post->slug = $slug;
+        
         $new_post->content = $data['content'];
         $new_post->published = isset($data['published']);
         $new_post->save();
@@ -68,9 +81,9 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Post $post)
     {
-        //
+        return view('admin.posts.edit', compact('post'));
     }
 
     /**
@@ -80,9 +93,10 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Post $post)
     {
-        //
+        $data = $request->all();
+        dd($data);
     }
 
     /**

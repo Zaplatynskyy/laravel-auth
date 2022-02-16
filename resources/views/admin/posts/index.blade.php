@@ -26,7 +26,9 @@
                                             <button type="button" class="btn btn-success">Visualizza</button>
                                         </a>
 
-                                        <button type="button" class="btn btn-warning mx-2">Modifica</button>
+                                        <a href="{{route('posts.edit', $post->id)}}">
+                                            <button type="button" class="btn btn-warning mx-2">Modifica</button>
+                                        </a>
 
                                         <form action="{{route('posts.destroy',$post->id)}}" method="POST">
                                             @csrf
