@@ -17,10 +17,18 @@
                        @foreach ($posts as $post)
                            <li>
                                <div class="head_post d-flex justify-content-between">
-                                    <h2>{{$post->title}}</h2>
-                                    <div class="buttons">
-                                        <button type="button" class="btn btn-warning">Modifica</button>
-                                        <button type="button" class="btn btn-danger">Elimina</button>
+                                    <div class="title">
+                                        <h2>{{$post->title}}</h2>
+                                        <h5>{{$post->slug}}</h5>
+                                    </div>
+                                    <div class="buttons d-flex justify-content-between align-items-center">
+                                        <button type="button" class="btn btn-warning mr-2">Modifica</button>
+
+                                        <form action="{{route('posts.destroy',$post->id)}}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger">Elimina</button>
+                                        </form>
                                     </div>
                                </div>
                                

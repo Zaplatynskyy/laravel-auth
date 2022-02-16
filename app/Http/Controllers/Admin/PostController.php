@@ -45,11 +45,7 @@ class PostController extends Controller
         $new_post->title = $data['title'];
         $new_post->slug = Str::of($data['title'])->slug('-');
         $new_post->content = $data['content'];
-
-        if(isset($data['published'])) {
-            $new_post->published = true;
-        }
-
+        $new_post->published = isset($data['published']);
         $new_post->save();
 
         return redirect()->route('posts.index');
@@ -95,8 +91,10 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Post $post)
     {
-        //
+        $post->delete();
+
+        return redirect()->route('posts.index');
     }
 }
