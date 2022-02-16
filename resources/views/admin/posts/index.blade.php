@@ -22,7 +22,11 @@
                                         <h5>{{$post->slug}}</h5>
                                     </div>
                                     <div class="buttons d-flex justify-content-between align-items-center">
-                                        <button type="button" class="btn btn-warning mr-2">Modifica</button>
+                                        <a href="{{route('posts.show', $post->id)}}">
+                                            <button type="button" class="btn btn-success">Visualizza</button>
+                                        </a>
+
+                                        <button type="button" class="btn btn-warning mx-2">Modifica</button>
 
                                         <form action="{{route('posts.destroy',$post->id)}}" method="POST">
                                             @csrf
