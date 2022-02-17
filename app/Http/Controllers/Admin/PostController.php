@@ -37,14 +37,14 @@ class PostController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {        
-        $data = $request->all();
-
+    {   
         $request->validate([
             'title' => 'required|string|max:100',
             'content' => 'required',
             // 'published' => ''
         ]);
+
+        $data = $request->all();
 
         $new_post = new Post();
         $new_post->title = $data['title'];
@@ -95,15 +95,32 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        $data = $request->all();
-
         $request->validate([
             'title' => 'required|string|max:100',
             'content' => 'required',
             // 'published' => ''
         ]);
+
+        $data = $request->all();
+
+        // dd($data);
+        if( $post->title != $data['title'] ) {
+            $post->title = $data['title'];
+
+            $slug = Str::of($data['title'])->slug('-');
+            $count = 1;
+            while( Post::where('slug', $slug)->first() ) {
+                $slug = Str::of($data['title'])->slug('-')."-{$count}";
+                $count++;
+            }
+            $post->slug = $slug;
+        }
         
-        dd($data);
+        $post->content = $data['content'];
+        $post->published = isset($data['published']);
+        $post->save();
+
+        return redirect()->route('posts.show', $post->id);
     }
 
     /**
