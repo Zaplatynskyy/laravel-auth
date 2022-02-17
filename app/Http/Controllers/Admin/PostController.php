@@ -96,6 +96,13 @@ class PostController extends Controller
     public function update(Request $request, Post $post)
     {
         $data = $request->all();
+
+        $request->validate([
+            'title' => 'required|string|max:100',
+            'content' => 'required',
+            // 'published' => ''
+        ]);
+        
         dd($data);
     }
 
